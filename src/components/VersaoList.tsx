@@ -13,6 +13,21 @@ function VersaoList({ versoes, onEdit, onDelete, onToggleConcluido }: VersaoList
     return new Date(date).toLocaleDateString();
   };
 
+  const getGmudStatusColor = (estadoGmud: string) => {
+    switch (estadoGmud) {
+      case 'não iniciado':
+        return 'bg-gray-100 text-gray-800';
+      case 'concluida':
+        return 'bg-green-100 text-green-800';
+      case 'pendente de acordo':
+        return 'bg-orange-100 text-orange-800';
+      case 'pendente permissão de Change':
+        return 'bg-blue-100 text-blue-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  };
+
   return (
     <div className="bg-white rounded-lg shadow overflow-hidden">
       <table className="min-w-full divide-y divide-gray-200">
@@ -29,6 +44,9 @@ function VersaoList({ versoes, onEdit, onDelete, onToggleConcluido }: VersaoList
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Ambiente
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Estado da GMUD
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Status
@@ -57,6 +75,11 @@ function VersaoList({ versoes, onEdit, onDelete, onToggleConcluido }: VersaoList
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${versao.ambiente === 'produção' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'}`}>
                     {versao.ambiente.charAt(0).toUpperCase() + versao.ambiente.slice(1)}
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getGmudStatusColor(versao.estadoGmud)}`}>
+                    {versao.estadoGmud || 'Não iniciado'}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
@@ -93,7 +116,7 @@ function VersaoList({ versoes, onEdit, onDelete, onToggleConcluido }: VersaoList
             ))
           ) : (
             <tr>
-              <td colSpan={7} className="px-6 py-4 text-center text-sm text-gray-500">
+              <td colSpan={8} className="px-6 py-4 text-center text-sm text-gray-500">
                 Nenhuma versão encontrada
               </td>
             </tr>

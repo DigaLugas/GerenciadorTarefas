@@ -17,6 +17,7 @@ export interface Chamado {
     ambiente: 'homologação' | 'produção';
     observacoes: string;
     dataAtualizacao?: Date;
+    estadoGmud: string; 
   }
   
   
